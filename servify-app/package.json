@@ -1,12 +1,14 @@
 {
-  "name": "servify-app",
-  "version": "0.1.0",
-  "description": "A small frontend scaffold for the Servify app",
+  "name": "servify-spatial-app",
+  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "npx serve . -s -l 5000"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {}
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
 }
