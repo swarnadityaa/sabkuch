@@ -24,7 +24,8 @@ jobs:
         uses: actions/configure-pages@v3
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
+        # Use a non-deprecated release of the upload-pages-artifact action
+        uses: actions/upload-pages-artifact@v2
         with:
           # Publish the repository root ('.') so index.html at repo root is served.
           path: '.'
