@@ -1,47 +1,24 @@
-import createNavigation from './components/Navigation.js';
-import createConsumerView from './views/ConsumerView.js';
-import createProviderView from './views/ProviderView.js';
+import { renderNavigation } from './components/Navigation.js';
+import { renderConsumerView } from './views/ConsumerView.js';
+import { renderProviderView } from './views/ProviderView.js';
+import { renderBargainModal, clearModal } from './components/BargainModal.js';
 
-const app = document.getElementById('app');
+let currentView = 'client';
 
-function mount() {
-  const container = document.createElement('div');
-  container.className = 'container';
-
-  const nav = createNavigation([{
-    id: 'consumer',
-    label: 'Consumer View'
-  },{
-    id: 'provider',
-    label: 'Provider View'
-  }]);
-
-  container.appendChild(nav);
-
-  const viewRoot = document.createElement('div');
-  viewRoot.id = 'view-root';
-  container.appendChild(viewRoot);
-
-  app.appendChild(container);
-
-  function showView(id){
-    viewRoot.innerHTML = '';
-    if(id === 'consumer') viewRoot.appendChild(createConsumerView());
-    if(id === 'provider') viewRoot.appendChild(createProviderView());
-
-    // update active button
-    nav.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.view === id));
-  }
-
-  // initial
-  showView('consumer');
-
-  // attach listeners
-  nav.addEventListener('click', (e)=>{
-    const b = e.target.closest('button');
-    if(!b) return;
-    showView(b.dataset.view);
-  });
+function openBargainModal(name, title, budget) {
+  renderBargainModal(name, title, budget, () => clearModal());
 }
 
-window.addEventListener('DOMContentLoaded', mount);
+function updateRouter(view) {
+  currentView = view;
+  renderNavigation(currentView, updateRouter);
+
+  if (currentView === 'client') {
+    renderConsumerView(openBargainModal);
+  } else {
+    renderProviderView(openBargainModal);
+  }
+}
+
+// Initial App Boot
+updateRouter('client');
