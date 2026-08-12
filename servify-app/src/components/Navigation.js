@@ -1,14 +1,12 @@
-export default function createNavigation(items = []){
-  const nav = document.createElement('nav');
-  nav.className = 'nav';
+export function renderNavigation(currentView, onViewChange) {
+  const mount = document.getElementById('navigation-mount');
+  mount.innerHTML = `
+    <div class="segmented-control">
+      <button class="seg-btn ${currentView === 'client' ? 'active' : ''}" id="nav-client">Client View</button>
+      <button class="seg-btn ${currentView === 'provider' ? 'active' : ''}" id="nav-provider">Provider View</button>
+    </div>
+  `;
 
-  items.forEach(i=>{
-    const btn = document.createElement('button');
-    btn.textContent = i.label;
-    btn.dataset.view = i.id;
-    if(i.id === 'consumer') btn.classList.add('active');
-    nav.appendChild(btn);
-  });
-
-  return nav;
+  document.getElementById('nav-client').addEventListener('click', () => onViewChange('client'));
+  document.getElementById('nav-provider').addEventListener('click', () => onViewChange('provider'));
 }
